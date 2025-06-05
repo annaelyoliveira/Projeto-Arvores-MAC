@@ -30,10 +30,12 @@ Este projeto é uma ferramenta em Python que permite analisar playlists do Spoti
 
 ## 📊 Exemplos de Saída
 
-- **Ranking das músicas mais populares (por popularidade Spotify)**
-- **Ranking das músicas mais frequentes na playlist**
-- **Ranking dos gêneros mais presentes**
-- **Gráficos interativos de barras e pizza**
+- **Árvore Representada Graficamente**
+  
+![Imagem do WhatsApp de 2025-06-05 à(s) 20 28 37_050ef340](https://github.com/user-attachments/assets/e45cb500-cfd1-4497-9536-9f4bdafec76a)
+![Imagem do WhatsApp de 2025-06-05 à(s) 20 28 37_d2efc561](https://github.com/user-attachments/assets/ae3c12c6-0322-4a89-a52b-b3c0b5fb5fb6)
+![Imagem do WhatsApp de 2025-06-05 à(s) 20 28 38_fa6e2aa9](https://github.com/user-attachments/assets/0f15856c-1235-4c21-b134-6f22689d355c)
+![Imagem do WhatsApp de 2025-06-05 à(s) 20 28 38_3f516889](https://github.com/user-attachments/assets/38b6ef34-01fa-4b95-93b5-ed91dbede358)
 
 ## 💡 Observações
 

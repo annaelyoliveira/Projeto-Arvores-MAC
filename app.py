@@ -6,11 +6,12 @@ from collections import Counter
 import os
 from dotenv import load_dotenv
 import time
+from graphviz import Digraph  
 
 class Node:
     def __init__(self, key, value):
         self.key = key
-        self.value = value 
+        self.value = value  
         self.left = None
         self.right = None
 
@@ -41,7 +42,6 @@ class BinaryTree:
         _in_order(self.root)
         return result[::-1]  
 
-
     def in_order_desc(self):
         result = []
         def _in_order_desc(node):
@@ -52,11 +52,59 @@ class BinaryTree:
         _in_order_desc(self.root)
         return result
 
+   
+    def visualize(self, title="Árvore Binária"):
+        try:
+            from graphviz import Digraph
+            try:
+                
+                safe_title = "".join(c if c.isalnum() else "_" for c in title)
+                filename = f'tree_visualization_{safe_title}'
+                
+                dot = Digraph(comment=title)
+                
+                def add_nodes_edges(node):
+                    if node:
+                        value_str = ', '.join(str(v) for v in node.value)[:20] + ('...' if len(', '.join(str(v) for v in node.value)) > 20 else '')
+                        label = f"{node.key}\n{value_str}"
+                        dot.node(str(id(node)), label=label)
+                        
+                        if node.left:
+                            dot.edge(str(id(node)), str(id(node.left)))
+                            add_nodes_edges(node.left)
+                        if node.right:
+                            dot.edge(str(id(node)), str(id(node.right)))
+                            add_nodes_edges(node.right)
+                
+                add_nodes_edges(self.root)
+                
+                
+                dot.render(filename, format='png', cleanup=True, view=False)
+                print(f"\nVisualização da {title} salva como '{filename}.png'")
+                
+                try:
+                    import webbrowser
+                    webbrowser.open(f'{filename}.png')
+                except:
+                    pass
+                    
+                return True
+                
+            except Exception as e:
+                print(f"\nErro ao gerar visualização gráfica: {e}")
+                print("Mostrando representação textual da árvore:")
+                self.print_tree()
+                return False
+                
+        except ImportError:
+            print("\nBiblioteca graphviz não instalada. Mostrando representação textual da árvore:")
+            self.print_tree()
+            return False
+
 load_dotenv()
 
 sp = spotipy.Spotify(auth_manager=SpotifyOAuth(
     client_id=os.getenv("SPOTIFY_CLIENT_ID"),
-    
     client_secret=os.getenv("SPOTIFY_CLIENT_SECRET"),
     redirect_uri="http://127.0.0.1:8888/callback",
     scope="playlist-read-private playlist-read-collaborative"
@@ -140,7 +188,10 @@ def analyze_playlist(playlist_id):
     for genre, count in genre_counter.items():
         bt_genres.insert(count, genre)
 
-
+    print("\n=== VISUALIZAÇÃO DAS ÁRVORES BINÁRIAS ===")
+    bt_freq.visualize("Árvore de Frequência de Músicas")
+    bt_pop.visualize("Árvore de Popularidade de Músicas")
+    bt_genres.visualize("Árvore de Frequência de Gêneros")
 
     print("\n=== TOP 10 MÚSICAS (usando árvore de popularidade) ===")
     print(f"{'Música'.ljust(70)}{'Popularidade'.rjust(15)}")
@@ -168,7 +219,6 @@ def analyze_playlist(playlist_id):
                 break
         if cont >= 10:
             break
-
 
     top_popularities = []
     top_names = []
